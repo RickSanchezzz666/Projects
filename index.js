@@ -1,7 +1,9 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 require('dotenv').config()
-const { Sessions } = require('./models/sessions')
+const sessions = require('./api/sessions.api')
+const users = require('./api/users.api')
+const theaters = require('./api/theaters.api')
 
 
 console.log(`MONGO_DB_URI:${process.env.MONGO_DB_URI}`)
@@ -15,7 +17,13 @@ app.use(bodyParser.json());
 const setup = async () => {
     await Mongo.setupDb(process.env.MONGO_DB_URI);
 
-    app.post("/sessions", async (req, res) => {
+    app.use(sessions.router);
+
+    app.use(theaters.router);
+
+    app.use(users.router);
+
+    /*app.post("/sessions", async (req, res) => {
         const { name, email, text } = req.body;
 
         const doc = new Sessions({
@@ -25,12 +33,7 @@ const setup = async () => {
         const elem = await doc.save()
 
         return res.status(200).send(elem);
-    });
-
-    app.get("/sessions", async (req, res) => {
-        const docs = await Sessions.find().limit(20);
-        return res.status(200).send(docs);
-    });
+    });*/
 
     app.listen(process.env.PORT, () => {
         console.log("Server was started on 8080 port.")
