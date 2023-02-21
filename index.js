@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 require('dotenv').config()
-const { Comments } = require('./models/comments')
+const { Sessions } = require('./models/sessions')
 
 
 console.log(`MONGO_DB_URI:${process.env.MONGO_DB_URI}`)
@@ -15,10 +15,10 @@ app.use(bodyParser.json());
 const setup = async () => {
     await Mongo.setupDb(process.env.MONGO_DB_URI);
 
-    app.post("/comments", async (req, res) => {
+    app.post("/sessions", async (req, res) => {
         const { name, email, text } = req.body;
 
-        const doc = new Comments({
+        const doc = new Sessions({
             name, email, text, date: new Date()
         });
 
@@ -27,8 +27,8 @@ const setup = async () => {
         return res.status(200).send(elem);
     });
 
-    app.get("/comments", async (req, res) => {
-        const docs = await Comments.find().limit(20);
+    app.get("/sessions", async (req, res) => {
+        const docs = await Sessions.find().limit(20);
         return res.status(200).send(docs);
     });
 
