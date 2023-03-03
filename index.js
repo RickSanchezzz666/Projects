@@ -2,8 +2,6 @@ const express = require("express");
 const bodyParser = require("body-parser");
 require('dotenv').config()
 const sessions = require('./api/sessions.api')
-const users = require('./api/users.api')
-const theaters = require('./api/theaters.api')
 
 
 console.log(`MONGO_DB_URI:${process.env.MONGO_DB_URI}`)
@@ -19,9 +17,6 @@ const setup = async () => {
 
     app.use(sessions.router);
 
-    app.use(theaters.router);
-
-    app.use(users.router);
 
     /*app.post("/sessions", async (req, res) => {
         const { name, email, text } = req.body;
