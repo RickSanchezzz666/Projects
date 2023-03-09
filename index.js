@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 require('dotenv').config()
+const UserAccountController = require('./api/users.api')
 
 
 require("./models/links")
@@ -17,6 +18,8 @@ app.use(bodyParser.json());
 
 const setup = async () => {
     await Mongo.setupDb(process.env.MONGO_DB_URI);
+
+    app.use(UserAccountController.router);
 
     app.listen(process.env.PORT, () => {
         console.log("Server was started on 8080 port.")
