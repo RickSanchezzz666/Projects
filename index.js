@@ -1,29 +1,27 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-require('dotenv').config()
-const UserAccountController = require('./api/users.api')
+const fs = require('fs')
 
+const scenario = fs.readFileSync('./scenario.txt', (err, data) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    console.log(data);
+})
+const resultio = scenario.toString();
+const results = resultio.match(/^[a-z]+:/gmi);
 
-require("./models/links")
-require("./models/users")
+const charachters = [];
+results.forEach(characterName => {
+ const name = characterName.slice(0, -1);
+ // [].find(e => ...) => null || elem
+ // [].includes(<value>) => boolean
+ if (!charachters.includes(name)) {
+  charachters.push(name);
+ }
+});
 
+console.log(charachters);
 
-console.log(`MONGO_DB_URI:${process.env.MONGO_DB_URI}`)
-console.log(`PORT:${process.env.PORT}`)
-
-const Mongo = require('./setup/mongoose')
-
-const app = express();
-app.use(bodyParser.json());
-
-const setup = async () => {
-    await Mongo.setupDb(process.env.MONGO_DB_URI);
-
-    app.use(UserAccountController.router);
-
-    app.listen(process.env.PORT, () => {
-        console.log("Server was started on 8080 port.")
-    });
+for(let num = 0; num < charachters.length; num += 1) {
+    fs.writeFileSync(`${charachters[num]}.txt`, 'blablabla')
 }
-
-setup();
