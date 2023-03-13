@@ -53,5 +53,10 @@ router.post("/links", async (req, res) => {
     }
    });
 
+  router.get("/links?expiredAt", async (req, res) => {
+    const { authorization } = req.headers;
+
+  })
+
 module.exports = {router}
    
