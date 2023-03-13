@@ -33,40 +33,16 @@ router.post("/users", async (req, res) => {
     }
 });
 
-router.get("/users/login", async (req, res) => {
-    const { 
-        email, password
-    } = req.query;
-
-    try {
-        if (!email) {
-            return res.status(400).send({
-             message: 'Parameter email is required'
-            });
-           }
-          
-           if (!password) {
-            return res.status(400).send({
-             message: 'Parameter password is required'
-            });
-           }
-    
-           const user = await Users.findOne({email, password})
-          
-          
-           if (!user) {
-            return res.status(400).send({
-             message: 'We not found any user with combination'
-            });
-           } else {
-            res.status(200).send({ user });
-           }
-       
-    } catch {
-        console.error(err);
-        res.status(400).send({ message: err.toString() });
-    }
-
+router.post("/users/login", async (req, res) => {
+        const { email, password } = req.body;
+        const user = await Users.findOne({ email, password });
+        if (!user) {
+          return res.status(401).json({ message: 'Invalid credentials' });
+        }
+        if (user.apiKey !== req.headers.authorization) {
+          return res.status(401).json({ message: 'Invalid apiKey' });
+        }
+        return res.status(200).send({ message: `SUCCESS. You have been have got loginned <3 into \n ${user}` });
 });
 
 
