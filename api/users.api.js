@@ -17,7 +17,6 @@ router.post("/users", async (req, res) => {
      if(userEmail){
         return res.status(400).send({message: 'This email is already in use'});
      }
-
      if(!email){
         return res.status(400).send({message: 'This field email is required!'});
      }
@@ -39,30 +38,34 @@ router.get("/users/login", async (req, res) => {
         email, password
     } = req.query;
 
+    try {
+        if (!email) {
+            return res.status(400).send({
+             message: 'Parameter email is required'
+            });
+           }
+          
+           if (!password) {
+            return res.status(400).send({
+             message: 'Parameter password is required'
+            });
+           }
     
-    if (!email) {
-        return res.status(400).send({
-         message: 'Parameter email is required'
-        });
-       }
-      
-       if (!password) {
-        return res.status(400).send({
-         message: 'Parameter password is required'
-        });
-       }
-
-       const user = await Users.findOne({email, password})
-      
-      
-       if (!user) {
-        return res.status(400).send({
-         message: 'We not found any user with combination'
-        });
-       } else {
-        res.status(200).send({ user });
-       }
-   
+           const user = await Users.findOne({email, password})
+          
+          
+           if (!user) {
+            return res.status(400).send({
+             message: 'We not found any user with combination'
+            });
+           } else {
+            res.status(200).send({ user });
+           }
+       
+    } catch {
+        console.error(err);
+        res.status(400).send({ message: err.toString() });
+    }
 
 });
 
