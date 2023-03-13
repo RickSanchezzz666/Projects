@@ -17,9 +17,7 @@ function makeCut(length) {
 
 router.post('/links',  async (req, res) => {
     const { 
-        link: {
-            original
-        }
+        original
     } = req.body;
     const {
         userId
@@ -35,7 +33,7 @@ router.post('/links',  async (req, res) => {
          const shortLink = Links.findOneAndUpdate(
             { link: {cut}, expiredAt },
             {
-                $set: {cut: makeCut(15)},
+                $set: {cut: makeCut(10)},
                 $set: {expiredAt: new Date() }
             }
             );
