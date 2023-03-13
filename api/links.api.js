@@ -1,7 +1,23 @@
 const {Links} = require('../models/links');
+const { Users } = require('../models/users')
 const {Router} = require('express')
 
 const router = Router();
+
+router.use("/links", async (req, res, next) => {
+    const { authorization } = req.headers;
+   
+      if (!authorization) {
+       return res.status(401).send({ message: `ApiKey is required` });
+      }
+     
+      const user = await Users.findOne({ apiKey: authorization });
+      if (!user) {
+       return res.status(401).send({ message: `401, User is not authorized` });
+      }
+     
+      return next();
+   });
 
 function makeCut(length) {
     let result = '';
@@ -15,35 +31,27 @@ function makeCut(length) {
     return result;
 }
 
-router.post('/links',  async (req, res) => {
-    const { 
-        original
-    } = req.body;
-    const {
-        userId
-    } = req.headers;
-
+router.post("/links", async (req, res) => {
+    const { original } = req.body;
+    const { authorization } = req.headers;
+   
     try {
-        const login = await Links.findOne({userId})
-
-        if(!login) {
-            return res.status(401).send({message: 'User is not authorized'})
-         }
-     
-         const shortLink = Links.findOneAndUpdate(
-            { link: {cut}, expiredAt },
-            {
-                $set: {cut: makeCut(10)},
-                $set: {expiredAt: new Date() }
-            }
-            );
-     
-         const doc = await shortLink.save();
-     
-         return res.status(200).send(doc);
-    } catch (err) {
-        console.error(err);
-        res.status(400).send({ message: err.toString() });
+       if (!original) {
+           return res.status(400).send({ message: '400, Original link is required' });
        }
+   
+     const randomLink = makeCut(6);
+     const expires = new Date(new Date().getTime() + (5 * 24 * 60 * 60 * 1000));
+   
+     const newLink = new Links({ link: { original, cut: randomLink }, expiredAt: expires, userId: authorization });
+     const doc = await newLink.save();
+   
+     return res.status(200).send({ link: doc.link.cut, expiredAt: doc.expiredAt });
+    } catch (err) {
+     console.error(err);
+     res.status(400).send({ message: err.toString() });
+    }
+   });
 
-})
+module.exports = {router}
+   
