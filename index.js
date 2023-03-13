@@ -23,52 +23,35 @@ results_1.forEach(characterName => {
     }
 })
 
-let charachtersSpeeches0 = '';
-let charachtersSpeeches1 = '';
-let charachtersSpeeches2 = '';
-let charachtersSpeeches3 = '';
+for(let num = 0; num < charachters.length; num += 1) {
+  charachtersSpeeches[num] = '';
+}
 
 results_2.forEach(texts => {
   let result = texts.match(/^[a-z]+:/gmi);
   let notArray = result[0]
   let resSlice = notArray.slice(0, -1);
 
-  if(resSlice === `Max`) {
-    charachtersSpeeches0 += texts;
-    charachtersSpeeches0 += ' \n';
+  if(resSlice === charachters[0]) {
+    charachtersSpeeches[0] += texts;
+    charachtersSpeeches[0] += ' \n';
   }
-  if(resSlice === 'Geralt') {
-    charachtersSpeeches1 += texts;
-    charachtersSpeeches1 += ' \n';
+  if(resSlice === charachters[1]) {
+    charachtersSpeeches[1] += texts;
+    charachtersSpeeches[1] += ' \n';
   }
-  if(resSlice === 'Yennefer') {
-    charachtersSpeeches2 += texts;
-    charachtersSpeeches2 += ' \n';
+  if(resSlice === charachters[2]) {
+    charachtersSpeeches[2] += texts;
+    charachtersSpeeches[2] += ' \n';
   }
-  if(resSlice === 'Triss') {
-    charachtersSpeeches3 += texts;
-    charachtersSpeeches3 += ' \n';
+  if(resSlice === charachters[3]) {
+    charachtersSpeeches[3] += texts;
+    charachtersSpeeches[3] += ' \n';
   }
 })
-
-charachtersSpeeches.push(charachtersSpeeches0);
-charachtersSpeeches.push(charachtersSpeeches1);
-charachtersSpeeches.push(charachtersSpeeches2);
-charachtersSpeeches.push(charachtersSpeeches3);
 
 console.log(charachters);
 
 for(let num = 0; num < charachters.length; num += 1) {
-  if(num === 0) {
-    fs.writeFileSync(`${charachters[num]}.txt`, charachtersSpeeches[num])
-  }
-  if(num === 1) {
-    fs.writeFileSync(`${charachters[num]}.txt`, charachtersSpeeches[num])
-  }
-  if(num === 2) {
-    fs.writeFileSync(`${charachters[num]}.txt`, charachtersSpeeches[num])
-  }
-  if(num === 3) {
-    fs.writeFileSync(`${charachters[num]}.txt`, charachtersSpeeches[num])
-  }
+  fs.writeFileSync(`${charachters[num]}.txt`, charachtersSpeeches[num])
 }
