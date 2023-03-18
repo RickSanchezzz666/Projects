@@ -33,19 +33,23 @@ results_2.forEach(texts => {
   let resSlice = notArray.slice(0, -1);
 
   if(resSlice === charachters[0]) {
-    charachtersSpeeches[0] += texts;
+    const textSlice = texts.slice(charachters[0].length + 2)
+    charachtersSpeeches[0] += textSlice;
     charachtersSpeeches[0] += ' \n';
   }
   if(resSlice === charachters[1]) {
-    charachtersSpeeches[1] += texts;
+    const textSlice = texts.slice(charachters[1].length + 2)
+    charachtersSpeeches[1] += textSlice;
     charachtersSpeeches[1] += ' \n';
   }
   if(resSlice === charachters[2]) {
-    charachtersSpeeches[2] += texts;
+    const textSlice = texts.slice(charachters[2].length + 2)
+    charachtersSpeeches[2] += textSlice;
     charachtersSpeeches[2] += ' \n';
   }
   if(resSlice === charachters[3]) {
-    charachtersSpeeches[3] += texts;
+    const textSlice = texts.slice(charachters[3].length + 2)
+    charachtersSpeeches[3] += textSlice;
     charachtersSpeeches[3] += ' \n';
   }
 })
