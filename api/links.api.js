@@ -41,6 +41,14 @@ router.post("/links", async (req, res) => {
        }
    
      const randomLink = makeCut(6);
+     const linkCheck = await Links.findOne({ cut: randomLink });
+     function linkChecker() {
+      if(linkCheck) {
+        randomLink = makeCut(6)
+       }
+       linkChecker()
+     }
+
      const expires = new Date(new Date().getTime() + (5 * 24 * 60 * 60 * 1000));
    
      const newLink = new Links({ link: { original, cut: randomLink }, expiredAt: expires, userId: authorization });
