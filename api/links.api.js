@@ -40,7 +40,7 @@ router.post("/links", async (req, res) => {
       const randomLink = makeCut(6);
      const linkCheck = await Links.findOne({ cut: randomLink });
      if(linkCheck) {
-      linkMaker()
+      return linkMaker()
      }
      else {
       return randomLink;
