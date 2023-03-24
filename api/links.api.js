@@ -35,22 +35,31 @@ router.post("/links", async (req, res) => {
     const { original } = req.body;
     const { authorization } = req.headers;
 
-    function linkChecker(link, random) {
-      if(link) {
-        random = makeCut(6)
-       }
-       linkChecker(link, random)
+
+    async function linkMaker() {
+      const randomLink = makeCut(6);
+     const linkCheck = await Links.findOne({ cut: randomLink });
+     if(linkCheck) {
+      linkMaker()
      }
+     else {
+      return randomLink;
+     }
+    }
    
     try {
        if (!original) {
            return res.status(400).send({ message: '400, Original link is required' });
        }
-   
-     const randomLink = makeCut(6);
-     const linkCheck = await Links.findOne({ cut: randomLink });
+   /**
+    * крок 1 згенерувати рандом линк
+    * крок 2 подивитись чи існує
+    * крок 3 перевірка чи вернувся елемент
+    * крок 3.а перевірка пройшла не успішно(елем існує) - крок 1
+    * крок 3.б перевірка пройшла успішно(елем не існує) - кінець
+    */
 
-     linkChecker(randomLink, linkCheck)
+     linkMaker();
 
      const expires = new Date(new Date().getTime() + (5 * 24 * 60 * 60 * 1000));
    
