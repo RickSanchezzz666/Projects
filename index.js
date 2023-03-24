@@ -32,25 +32,12 @@ results_2.forEach(texts => {
   let notArray = result[0]
   let resSlice = notArray.slice(0, -1);
 
-  if(resSlice === charachters[0]) {
-    const textSlice = texts.slice(charachters[0].length + 2)
-    charachtersSpeeches[0] += textSlice;
-    charachtersSpeeches[0] += ' \n';
-  }
-  if(resSlice === charachters[1]) {
-    const textSlice = texts.slice(charachters[1].length + 2)
-    charachtersSpeeches[1] += textSlice;
-    charachtersSpeeches[1] += ' \n';
-  }
-  if(resSlice === charachters[2]) {
-    const textSlice = texts.slice(charachters[2].length + 2)
-    charachtersSpeeches[2] += textSlice;
-    charachtersSpeeches[2] += ' \n';
-  }
-  if(resSlice === charachters[3]) {
-    const textSlice = texts.slice(charachters[3].length + 2)
-    charachtersSpeeches[3] += textSlice;
-    charachtersSpeeches[3] += ' \n';
+  for(let i = 0; i < charachters.length; i++) {
+    if(resSlice === charachters[i]) {
+      const textSlice = texts.slice(charachters[i].length + 2)
+      charachtersSpeeches[i] += textSlice;
+      charachtersSpeeches[i] += ' \n';
+    }
   }
 })
 
