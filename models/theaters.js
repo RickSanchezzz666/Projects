@@ -12,9 +12,7 @@ const schema = new Schema({
         },
         geo: {type: Object, 
             type: {type: String},
-            coordinates: {type: Array, 
-                latitude: {type: String},
-                longtitude: {type: String}
+            coordinates: {type: [Number],
             }
         }
     }
