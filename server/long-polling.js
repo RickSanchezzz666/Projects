@@ -1,28 +1,12 @@
 const express = require('express');
+require('dotenv').config();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const events = require('events');
 const path = require('path');
-
-const PORT = 8000;
+const setTelegramBot = require('./telegram_bot');
 
 const emitter = new events.EventEmitter();
-
-// emitter.on('event-1', (data) => {
-//  console.log(`[on] event: event-1, data:${JSON.stringify(data)}`);
-// });
-// emitter.on('event-2', (data) => {
-//  console.log(`[on] event: event-2, data:${JSON.stringify(data)}`);
-// });
-// emitter.once('event-1', (data) => {
-//  console.log(`[once] event: event-1, data:${JSON.stringify(data)}`);
-// });
-
-// emitter.emit('event-1', { data: 'this is event 1 data 1' });
-// emitter.emit('event-1', { data: 'this is event 1 data 2' });
-// emitter.emit('event-1', { data: 'this is event 1 data 3' });
-// emitter.emit('event-x', { data: 'this is event x data 1' });
-// emitter.emit('event-2', { data: 'this is event 2 data 1' });
 
 const app = express();
 app.use(cors());
@@ -43,4 +27,19 @@ app.post('/messages', (req, res) => {
  return res.status(200).send();
 });
 
-app.listen(PORT, () => console.log(`Server was started on ${PORT}`));
+app.get('/login', (req, res) => {
+ const { id } = req.query;
+ if (!id) {
+  return res.status(400).send({
+   message: 'parameter id is required'
+  });
+ }
+ console.log(`Wait on login id:${id}`);
+ emitter.once(`login-${id}`, (userInfo) => {
+  res.status(200).send(userInfo);
+ });
+});
+
+setTelegramBot(app, emitter);
+
+app.listen(process.env.PORT, () => console.log(`Server was started on ${process.env.PORT}`));

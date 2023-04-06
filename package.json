@@ -6,8 +6,7 @@
   "scripts": {
     "build": "cd public/ && npm run build",
     "start:long-polling": "node server/long-polling.js",
-    "start:event-source": "node server/event-source.js",
-    "start:web-socket": "node server/web-socket-server.js"
+    "start:event-source": "node server/event-source.js"
   },
   "author": "",
   "license": "ISC",
@@ -23,7 +22,6 @@
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^6.9.1",
-    "ngrok": "^4.3.3",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
     "react": "^18.2.0",
@@ -35,7 +33,6 @@
     "webpack-cli": "^5.0.1"
   },
   "devDependencies": {
-    "file-loader": "^6.2.0",
     "socket.io-client": "^4.6.1",
     "webpack": "^5.75.0",
     "webpack-dev-server": "^4.11.1"

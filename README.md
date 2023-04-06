@@ -1,10 +1,4 @@
-## API route for returning list of online users
-
-METHOD: GET
-PATH: /users?status=online|offline
-RESPONSE:
-```
-{
- users: [{ userName: string, status: 'online' | 'offline' }]
-}
-```
+Steps:
+1. npm init
+2. npm i express
+3. Create index.js

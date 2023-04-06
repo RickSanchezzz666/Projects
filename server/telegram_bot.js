@@ -8,30 +8,30 @@ module.exports = async (app, emitter) => {
  });
 
  bot.start((ctx) => {
+  // console.log('message:', ctx.message);
   ctx.reply('Welcome, use command "/login" to use your auth token\n\nExample: /login 12345-54645-564564...');
  });
 
  bot.command('login', (ctx) => {
+  // ctx.message.text => "/login 12345-54645-564564"
+  // option 1
+  // const id = ctx.message.text.slice(6);
+
+  // option 2
+  // const id = ctx.message.text.match(/[0-9a-z-]+$/ig);
+
+  // option 3
+  // const id = ctx.message.text.replace('/login', '').replaceAll(/ /, '');
+
+  // option 4
   const [command, id] = ctx.message.text.split(' ');
-  const eventName = `login-${id}`;
   console.log(`Try to login id:${id}`);
   const userInfo = {
    firstName: ctx.from.first_name,
-   lastName: ctx.from.last_name || '',
+   lastName: ctx.from.last_name
   };
 
-  // if (!ctx.from.first_name && !ctx.from.last_name) {
-  // }
-
-  // if (!userInfo.firstName && !userInfo.lastName) {
-  // }
-
-  // Object.values(userInfo) => [<first name value>, <last name value>]
-  if (!Object.values(userInfo).find(e => e.length)) {
-   userInfo.firstName = ctx.from.username || ctx.from.id;
-  }
-
-  emitter.emit(eventName, userInfo);
+  emitter.emit(`login-${id}`, userInfo);
  });
 
  app.use(router);
