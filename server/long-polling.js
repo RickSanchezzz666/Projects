@@ -1,6 +1,7 @@
 const express = require('express');
 require('dotenv').config();
 const bodyParser = require('body-parser');
+const {Messages } = require('../public/models/messages') 
 const cors = require('cors');
 const events = require('events');
 const path = require('path');
@@ -8,11 +9,21 @@ const setTelegramBot = require('./telegram_bot');
 
 const emitter = new events.EventEmitter();
 
+const Mongo = require('../public/setupDB/setupDB')
+
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
 app.use(express.static(path.join(__dirname, '../public/dist')));
+
+const setup = async () => {
+    await Mongo.setupDb(process.env.MONGO_DB_URI);
+
+    
+}
+
+setup();
 
 app.get('/messages', (req, res) => {
  emitter.once('new-message', (message) => {
