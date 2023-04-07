@@ -6,6 +6,7 @@ const cors = require('cors');
 const events = require('events');
 const path = require('path');
 const setTelegramBot = require('./telegram_bot');
+const messagesController = require('../public/api/message-api')
 
 const emitter = new events.EventEmitter();
 
@@ -20,7 +21,7 @@ app.use(express.static(path.join(__dirname, '../public/dist')));
 const setup = async () => {
     await Mongo.setupDb(process.env.MONGO_DB_URI);
 
-    
+    app.use(messagesController.router)
 }
 
 setup();
