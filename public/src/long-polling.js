@@ -28,7 +28,9 @@ const LongPollingChat = () => {
   try {
    const { data } = await axios.get('/messages');
    setMessages((prev) => {
-    return [...prev, data.message];
+      const newMessage = [...prev, data.message];
+      localStorage.setItem('messages', JSON.stringify(newMessage));
+      return newMessage;
    });
    subscribe();
   } catch (err) {
@@ -49,11 +51,22 @@ const LongPollingChat = () => {
  }, []);
 
  const sendMessage = async () => {
-  await axios.post('/messages', {
-   userName,
-   text: value,
-   date: Date.now()
-  });
+  const messageSave = {
+    userName,
+    message: value,
+    date: Date.now()
+  }
+  try {
+    await axios.post('/messages', messageSave);
+    await axios.post('./api/message', messageSave)
+    messageSave((prev) => {
+      const newMessage = [...prev, messageSave];
+      localStorage.setItem('messages', JSON.stringify(newMessage));
+      return newMessage;
+    })
+  } catch (error) {
+     console.log(err);
+  }
  };
 
  return (
