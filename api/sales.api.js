@@ -10,7 +10,16 @@ router.get('/sales', async (req, res) => {
 
    if (storeLocation) {
       if (storeLocation) {
-         dbQuery.storeLocation = {$regex: new RegExp(`(\w+)`)}
+         dbQuery.storeLocation = { $in: [/(\w+)/g] }
+      }
+      if (storeLocation) {
+         dbQuery.storeLocation = { $in: [/[[:<:]]tex/g] }
+      }
+      if (storeLocation) {
+         dbQuery.storeLocation = { $in: [/tex[[:>:]]/g] }
+      }
+      if(storeLocation) {
+         dbQuery.storeLocation = { $in: [/te.[[:>:]].[[:<:]]x/g] }
       }
    }
 
