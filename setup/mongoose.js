@@ -1,12 +1,14 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
-const setupDb = async (MongoURL) => {
-
-    const connect = await mongoose.connect(MongoURL)
-
+const setupDb = async (mongoURL) => {
+    
+    const connect = await mongoose.connect(mongoURL)
+    
     connect.connection.addListener('connect', () => {
-        console.log("Mongo DB was connected!");
+        console.log('MongoDB was connected')
     })
+
+ return connect;
 }
 
 module.exports = {
